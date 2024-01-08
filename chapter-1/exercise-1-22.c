@@ -7,7 +7,7 @@
  * long lines, and if there are no blanks or tabs before the specified column.
  * */
 
-#define FOLDSIZE 10
+#define FOLDSIZE 40
 #define BUFSIZE 1024
 
 #define IN 1  /* Inside of a word */
@@ -31,8 +31,7 @@ int main() {
     while ((len = getnewline(buffer, BUFSIZE)) > 0) {
 	if (len > FOLDSIZE) {
 	    int bi;
-	    int fbi;
-	    bi = fbi = 0;
+	    bi = 0;
 	    while (buffer[bi] != '\0') {
 
 		/* We found a word */
@@ -51,7 +50,7 @@ int main() {
 		/* When we reach the end of the line, we need to add a
 		 * newline character and the character on the 'bi' index,
 		 * and then continue iterating the array */
-		if (bi % (FOLDSIZE - 1) == 0) {
+		if ((bi > 0) && (bi % (FOLDSIZE - 1) == 0)) {
 
 		    /* We somehow need to take into account:
 		     * - What happens if we finished the line before
@@ -77,8 +76,8 @@ int main() {
 		     * the index before the start of the word so we know
 		     * when and where to copy into the new buffer.*/
 		    if (state == IN) {
-			int offset = bi - wordIndex;
-			finalBuffer[fbi - offset] = '\n';
+			int offset = bi - (wordIndex - 1);
+			finalBuffer[bi - offset] = '\n';
 		    } else {
 			/* And the easiest example is if we are at the end of
 			 * the line and there is a space. In this case, we will
@@ -86,16 +85,12 @@ int main() {
 			 * with the next word
 			 * */
 			if (buffer[bi] == SPACE || buffer[bi] == TAB) {
-			    ++bi;
+			    buffer[bi] = '\n';
 			}
-			finalBuffer[fbi] = '\n';
-			++fbi;
 		    }
 		}
 
-		finalBuffer[fbi] = buffer[bi];
-
-		++fbi;
+		finalBuffer[bi] = buffer[bi];
 		++bi;
 	    }
 	}
