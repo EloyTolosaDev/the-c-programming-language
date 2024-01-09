@@ -29,7 +29,7 @@
  *
  * */
 
-#define LIM 50 /* 50 chars lim for line */
+#define LIM 20 /* 20 chars lim for loop*/
 
 int main() {
 
@@ -38,10 +38,13 @@ int main() {
 
     /* Loop to read chars from stdin using conventional && */
     printf("Please, enter text:\n\t");
+
+    printf("Writing a piece of text using conventional && operator: \n");
     for (i = 0; i < LIM - 1 && (c = getchar()) != '\n' && c != EOF; ++i)
 	printf("%c", c);
     printf("\n");
 
+    printf("Writing a piece of text using multiplication: \n");
     /* Loop to read chars from stdin using conventional multiplication */
     for (j = 0; (j < LIM - 1) * ((d = getchar()) != '\n') * (d != EOF); ++j)
 	printf("%c", d);
