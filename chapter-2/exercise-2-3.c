@@ -8,7 +8,7 @@
  * */
 
 double htoi(char s[]); /* Converts a string of HEX valued number into a decimal
-		       number */
+	   number */
 int main() {
 
     /* Both of them sould spit the same number: 2748 */
